@@ -1,9 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar app>
+    <v-app-bar color="#43a047" dark app>
       <div class="d-flex align-center">
         <h2>The Shoppies</h2>
       </div>
+      
 
       <v-spacer></v-spacer>
 

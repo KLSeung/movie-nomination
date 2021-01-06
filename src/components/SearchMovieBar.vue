@@ -5,7 +5,7 @@
       max-width="80%"
     >
       <v-card-title class="ml-4"> 
-        Search Movie
+        Search Movie by Title
       </v-card-title>
       <v-card-text class="ml-4">
         <v-text-field

@@ -4,7 +4,6 @@
       <div class="d-flex align-center">
         <h2>The Shoppies</h2>
       </div>
-      
 
       <v-spacer></v-spacer>
 

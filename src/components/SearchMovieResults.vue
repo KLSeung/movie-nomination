@@ -4,13 +4,14 @@
       width="100%"
       height="550px"
       class="card-outter mb-8"
+      :loading="isLoading"
     >
       <v-card-title class="ml-4"> 
         Movie Results for: {{ movieSearchText }}
       </v-card-title>
       <v-card-text class="ml-4">
         <div v-if="filteredMovieList.length <= 0">
-          <h2>No Results Found!</h2>
+          <h2 class="error-text">No Results Found!</h2>
         </div>
         <ul>
           <template v-for="filteredMovie in filteredMovieList">
@@ -37,6 +38,11 @@
 <script>
 import { mapState } from 'vuex'
   export default {
+    data () {
+      return {
+        isLoading: false
+      }
+    },
     computed: {
       ...mapState({
         filteredMovieList: state => state.filteredMovieList,
@@ -54,7 +60,11 @@ import { mapState } from 'vuex'
     },
     methods: {
       fetchMovies() {
+        this.isLoading = true
         this.$store.dispatch('fetchMovies')
+          .then(() => {
+            this.isLoading = false
+          })
       },
     },
   }
@@ -71,5 +81,8 @@ import { mapState } from 'vuex'
     bottom: 0;
     left: 0;
     right: 0;
+  }
+  .error-text {
+    color: red;
   }
 </style>

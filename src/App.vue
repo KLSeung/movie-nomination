@@ -1,10 +1,15 @@
 <template>
   <v-app>
     <v-app-bar color="#43a047" dark app>
-      <div class="d-flex align-center">
+      <!-- <div class="d-flex align-center">
         <h2>The Shoppies</h2>
-      </div>
-
+      </div> -->
+      <v-app-bar-title
+        @click="$router.push('/')"
+        class="app-bar-title"
+      >
+        The Shoppies
+      </v-app-bar-title>
       <v-spacer></v-spacer>
 
       <v-btn
@@ -13,7 +18,6 @@
         text
       >
         <span class="mr-2">Login</span>
-        <!-- <v-icon>mdi-open-in-new</v-icon> -->
       </v-btn>
     </v-app-bar>
 
@@ -49,3 +53,9 @@ export default {
   }),
 };
 </script>
+
+<style lang="scss" scoped>
+  .app-bar-title {
+    cursor: pointer;
+  }
+</style>

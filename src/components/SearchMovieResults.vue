@@ -2,8 +2,8 @@
   <div>
     <v-card
       width="100%"
-      height="530px"
-      class="mb-8"
+      height="550px"
+      class="card-outter mb-8"
     >
       <v-card-title class="ml-4"> 
         Movie Results for: {{ movieSearchText }}
@@ -22,23 +22,54 @@
           </template>
         </ul>
       </v-card-text>
-        <v-pagination
-        :total-visible="10"
-        v-model="page"
-        :length="totalPageLength"
-        circle
-        @input="filterMovie"
-      ></v-pagination>
+      <v-card-actions width="100%" class="card-pagination justify-center">
+          <v-pagination
+          :total-visible="10"
+          v-model="movieListPage"
+          :length="totalPageLength"
+          @input="fetchMovies"
+          />
+      </v-card-actions>
     </v-card>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
   export default {
-    
+    computed: {
+      ...mapState({
+        filteredMovieList: state => state.filteredMovieList,
+        movieSearchText: state => state.movieSearchText,
+        totalPageLength: state => state.totalPageLength
+      }),
+      movieListPage: {
+        get() {
+          return this.$store.state.movieListPage
+        },
+        set(pageNumber) {
+          this.$store.state.movieListPage = pageNumber
+        }
+      }
+    },
+    methods: {
+      fetchMovies() {
+        this.$store.dispatch('fetchMovies')
+      },
+    },
   }
 </script>
 
 <style lang="scss" scoped>
-
+  .card-outter {
+    position: relative;
+    padding-bottom: 50px;
+  }
+  .card-pagination {
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 </style>

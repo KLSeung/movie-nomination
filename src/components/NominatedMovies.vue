@@ -13,7 +13,7 @@
         </v-icon>
       </v-card-title>
       <v-card-text class="ml-4">  
-        <div v-if="nominatedMovies.length <= 0">
+        <div v-if="nominatedMovieList.length <= 0">
           <h2>You have not nominated any movies yet!</h2>
           <p>Use the search bar above to find movies you want to nominate</p>
         </div>
@@ -24,7 +24,11 @@
 
 <script>
   export default {
-    
+    data() {
+      return {
+        nominatedMovieList: this.$store.state.nominatedMovieList
+      }
+    }
   }
 </script>
 

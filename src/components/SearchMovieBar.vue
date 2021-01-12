@@ -40,11 +40,30 @@ export default {
       set(text) {
         this.$store.state.movieSearchText = text
       }
+    },
+    isLoadingResults: {
+      get() {
+        return this.$store.state.isLoadingResults
+      },
+      set(isLoading) {
+        this.$store.state.isLoadingResults = isLoading
+      }
     }
   },
   methods: {
     fetchMovies() {
-      this.$store.dispatch('fetchMovies')
+      this.isLoadingResults = true
+      clearTimeout(this._timerId)
+
+      this._timerId = setTimeout(() => {
+        this.$store.dispatch('fetchMovies')
+          .then(() => {
+            this.isLoadingResults = false
+          })
+          .catch(() => {
+            this.isLoadingResults = false
+          })
+      }, 500)
     },
   },
 }

@@ -14,6 +14,7 @@ const actions = {
         } else {
           commit('EMPTY_MOVIE_LIST')
           commit('UPDATE_PAGE_LENGTH', 0)
+          resolve(res)
         }
       })
       .catch(err => {

@@ -4,13 +4,13 @@
       width="100%"
       height="550px"
       class="card-outter mb-8"
-      :loading="isLoading"
+      :loading="isLoadingResults"
     >
       <v-card-title class="ml-4"> 
         Movie Results for: {{ movieSearchText }}
       </v-card-title>
       <v-card-text class="ml-4">
-        <div v-if="filteredMovieList.length <= 0">
+        <div v-if="filteredMovieList.length <= 0 && isLoadingResults === false">
           <h2 class="error-text">No Results Found!</h2>
         </div>
         <ul>
@@ -38,16 +38,16 @@
 <script>
 import { mapState } from 'vuex'
   export default {
-    data () {
+    data() {
       return {
-        isLoading: false
+        displayErrorMessage: false
       }
     },
     computed: {
       ...mapState({
         filteredMovieList: state => state.filteredMovieList,
         movieSearchText: state => state.movieSearchText,
-        totalPageLength: state => state.totalPageLength
+        totalPageLength: state => state.totalPageLength,
       }),
       movieListPage: {
         get() {
@@ -56,14 +56,25 @@ import { mapState } from 'vuex'
         set(pageNumber) {
           this.$store.state.movieListPage = pageNumber
         }
+      },
+      isLoadingResults: {
+        get() {
+          return this.$store.state.isLoadingResults
+        },
+        set(isLoading) {
+          this.$store.state.isLoadingResults = isLoading
+        }
       }
     },
     methods: {
       fetchMovies() {
-        this.isLoading = true
+        this.isLoadingResults = true
         this.$store.dispatch('fetchMovies')
           .then(() => {
-            this.isLoading = false
+            this.isLoadingResults = false
+          })
+          .catch(() => {
+            this.displayErrorMesssage = true
           })
       },
     },

@@ -2,25 +2,40 @@
   <div>
     <v-card
       width="100%"
-      height="550px"
+      height="100%"
       class="card-outter mb-8"
       :loading="isLoadingResults"
     >
       <v-card-title class="ml-4"> 
         Movie Results for: {{ movieSearchText }}
       </v-card-title>
-      <v-card-text class="ml-4">
+      <v-card-text class="mb-3">
         <div v-if="filteredMovieList.length <= 0 && isLoadingResults === false">
-          <h2 class="error-text">No Results Found!</h2>
+          <h2 class="ml-4 error-text">No Results Found!</h2>
         </div>
-        <ul>
-          <template v-for="filteredMovie in filteredMovieList">
-            <v-row :key="filteredMovie.imdbID" class="ma-0 pa-0">
-              <li class="my-2">
-                {{ filteredMovie.Title }} ({{ filteredMovie.Year}})
-              </li>
+        <ul class="pa-0 ml-4">
+          <div v-for="(filteredMovie, index) in filteredMovieList" :key="filteredMovie.imdbID">
+            <v-row class="ma-0 pa-0">
+              <v-col cols="7">
+                <li class="my-2">
+                  {{ filteredMovie.Title }} ({{ filteredMovie.Year}})
+                </li>
+              </v-col>
+              <v-col cols="5">
+                <v-btn
+                  color="success"
+                  @click="nominateMovie(index)"
+                  :disabled="checkMovieIsSelected(filteredMovie)"
+                >
+                  <v-icon left>
+                    mdi-trophy
+                  </v-icon>
+                  Nominate
+                </v-btn>
+              </v-col>
             </v-row>
-          </template>
+            <v-divider></v-divider>
+          </div>
         </ul>
       </v-card-text>
       <v-card-actions width="100%" class="card-pagination justify-center">
@@ -38,6 +53,7 @@
 <script>
 import { mapState } from 'vuex'
   export default {
+    name: 'SearchMovieResults',
     data() {
       return {
         displayErrorMessage: false
@@ -64,7 +80,7 @@ import { mapState } from 'vuex'
         set(isLoading) {
           this.$store.state.isLoadingResults = isLoading
         }
-      }
+      },
     },
     methods: {
       fetchMovies() {
@@ -74,9 +90,22 @@ import { mapState } from 'vuex'
             this.isLoadingResults = false
           })
           .catch(() => {
+            this.isLoadingResults = false
             this.displayErrorMesssage = true
           })
       },
+      nominateMovie(movieIndex) {
+        this.$store.state.nominatedMovieList.push(this.filteredMovieList[movieIndex])
+        console.log(this.$store.state.nominatedMovieList)
+      },
+      checkMovieIsSelected(filteredMovie) {
+        // let isMovieSelected = false
+        return this.$store.state.nominatedMovieList.forEach((movie) => {
+          console.log(movie.Title === filteredMovie.Title && movie.Year === filteredMovie.Year, `${movie.Title} = ${filteredMovie.Title}` )
+          return movie.Title === filteredMovie.Title && movie.Year === filteredMovie.Year 
+        })
+        // return isMovieSelected        
+      }
     },
   }
 </script>

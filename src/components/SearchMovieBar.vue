@@ -32,6 +32,11 @@
 
 export default {
   name: 'SearchMovieBar',
+  data() {
+    return {
+      displayErrorMesssage: false
+    }
+  },
   computed: {
     movieSearchText: {
       get() {
@@ -53,15 +58,16 @@ export default {
   methods: {
     fetchMovies() {
       this.isLoadingResults = true
-      clearTimeout(this._timerId)
+      clearTimeout(this.searchTimer)
 
-      this._timerId = setTimeout(() => {
+      this.searchTimer = setTimeout(() => {
         this.$store.dispatch('fetchMovies')
           .then(() => {
             this.isLoadingResults = false
           })
           .catch(() => {
             this.isLoadingResults = false
+            this.displayErrorMesssage = true
           })
       }, 500)
     },

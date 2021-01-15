@@ -15,7 +15,7 @@
         </v-icon>
       </v-card-title>
       <v-card-text class="mb-3">  
-        <div v-if="nominatedMovieList.length <= 0">
+        <div class="ml-4" v-if="nominatedMovieList.length <= 0">
           <h2>You have not nominated any movies yet!</h2>
           <p class="my-3">Use the search bar above to find movies you want to nominate. You can nominate up to 5 different movies!</p>
         </div>
@@ -27,16 +27,16 @@
             :icon="false"
           >
             <v-row align="center">
-              <v-col cols="6" class="grow">
-                <span class="black--text">These are your 5 nominated movies!</span>
+              <v-col cols="7" class="grow">
+                <span class="font-weight-bold">These are your 5 nominated movies!</span>
               </v-col>
               <v-col class="shrink">
-                <v-btn color="green darken-2">Save Nominations</v-btn>
+                <v-btn color="green darken-2">Save</v-btn>
               </v-col>
             </v-row>
           </v-alert>
         </div>
-        <ul class="pa-0 ml-4">
+        <ol class="pa-0 ml-4">
           <div v-for="(nominatedMovie, index) in nominatedMovieList" :key="nominatedMovie.imdbID">
             <v-row class="ma-0 pa-0">
               <v-col cols="7">
@@ -58,7 +58,7 @@
             </v-row>
             <v-divider></v-divider>
           </div>
-        </ul>
+        </ol>
       </v-card-text>
     </v-card>
   </div>

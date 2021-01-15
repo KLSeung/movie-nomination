@@ -24,10 +24,10 @@
     <v-main>
       <SearchMovieBar/>
       <v-row class="mx-16" dense>
-        <v-col class="ml-0 pl-0 pr-12" cols="6">
+        <v-col class="ma-0 pa-0" :class="[this.$vuetify.breakpoint.width > 768 ? 'pr-12' : '']" :cols="cols">
           <SearchMovieResults/>
         </v-col>
-        <v-col class="mr-0 pr-0" cols="6">
+        <v-col class="ma-0 pa-0" :cols="cols">
           <NominatedMovies/>
         </v-col>
       </v-row>
@@ -49,8 +49,14 @@ export default {
     NominatedMovies,
   },
 
-  data: () => ({
-  }),
+  computed:{
+    cols() {
+      if (this.$vuetify.breakpoint.width <= 768) {
+        return 12
+      } 
+      return 6
+    }
+  },
 };
 </script>
 

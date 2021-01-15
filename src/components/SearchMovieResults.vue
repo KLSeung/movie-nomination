@@ -1,9 +1,10 @@
 <template>
   <div>
     <v-card
+      class="card-outter mb-8"
       width="100%"
       height="100%"
-      class="card-outter mb-8"
+      min-height="300px"
       :loading="isLoadingResults"
     >
       <v-card-title class="ml-4"> 
@@ -47,6 +48,21 @@
           />
       </v-card-actions>
     </v-card>
+    <v-snackbar
+      v-model="isNominateErrorShown"
+    >
+      You can only nominate up to 5 movies
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="pink"
+          text
+          v-bind="attrs"
+          @click="isNominateErrorShown = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -56,7 +72,8 @@ import { mapState } from 'vuex'
     name: 'SearchMovieResults',
     data() {
       return {
-        displayErrorMessage: false
+        isFetchErrorShown: false,
+        isNominateErrorShown: false
       }
     },
     computed: {
@@ -91,20 +108,25 @@ import { mapState } from 'vuex'
           })
           .catch(() => {
             this.isLoadingResults = false
-            this.displayErrorMesssage = true
+            this.isFetchErrorShown = true
           })
       },
       nominateMovie(movieIndex) {
-        this.$store.state.nominatedMovieList.push(this.filteredMovieList[movieIndex])
-        console.log(this.$store.state.nominatedMovieList)
+        if (this.$store.state.nominatedMovieList.length < 5) {
+          this.$store.state.nominatedMovieList.push(this.filteredMovieList[movieIndex])
+        } else {
+          this.isNominateErrorShown = true
+        }
       },
       checkMovieIsSelected(filteredMovie) {
-        // let isMovieSelected = false
-        return this.$store.state.nominatedMovieList.forEach((movie) => {
-          console.log(movie.Title === filteredMovie.Title && movie.Year === filteredMovie.Year, `${movie.Title} = ${filteredMovie.Title}` )
-          return movie.Title === filteredMovie.Title && movie.Year === filteredMovie.Year 
+        let isMovieSelected = false
+        this.$store.state.nominatedMovieList.forEach((movie) => {
+          // console.log(movie.Title === filteredMovie.Title && movie.Year === filteredMovie.Year, `${movie.Title} = ${filteredMovie.Title}` )
+          if (movie.Title === filteredMovie.Title && movie.Year === filteredMovie.Year) {
+            isMovieSelected = true
+          }
         })
-        // return isMovieSelected        
+        return isMovieSelected        
       }
     },
   }

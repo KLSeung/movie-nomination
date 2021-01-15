@@ -3,6 +3,7 @@
     <v-card
       width="100%"
       height="100%"
+      min-height="300px"
     >
       <v-card-title class="ml-4"> 
         <h3>Nominated Movies</h3>
@@ -13,10 +14,27 @@
           mdi-trophy
         </v-icon>
       </v-card-title>
-      <v-card-text class="ml-4">  
+      <v-card-text class="mb-3">  
         <div v-if="nominatedMovieList.length <= 0">
           <h2>You have not nominated any movies yet!</h2>
-          <p>Use the search bar above to find movies you want to nominate</p>
+          <p class="my-3">Use the search bar above to find movies you want to nominate. You can nominate up to 5 different movies!</p>
+        </div>
+        <div v-if="nominatedMovieList.length >= 5">
+          <v-alert
+            text
+            type="info"
+            color="green"
+            :icon="false"
+          >
+            <v-row align="center">
+              <v-col cols="6" class="grow">
+                <span class="black--text">These are your 5 nominated movies!</span>
+              </v-col>
+              <v-col class="shrink">
+                <v-btn color="green darken-2">Save Nominations</v-btn>
+              </v-col>
+            </v-row>
+          </v-alert>
         </div>
         <ul class="pa-0 ml-4">
           <div v-for="(nominatedMovie, index) in nominatedMovieList" :key="nominatedMovie.imdbID">

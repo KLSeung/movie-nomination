@@ -6,7 +6,7 @@
       </div> -->
       <v-app-bar-title
         @click="$router.push('/')"
-        class="app-bar-title"
+        class="app-bar-title ml-13"
       >
         The Shoppies
       </v-app-bar-title>

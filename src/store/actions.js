@@ -17,7 +17,7 @@ const actions = {
         }
       })
       .catch(err => {
-        reject(err)
+        reject(err.response)
       })
     })
   }

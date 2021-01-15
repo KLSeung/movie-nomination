@@ -77,6 +77,7 @@
     methods: {
       removeNominatedMovie(movieIndex) {
         this.$store.state.nominatedMovieList.splice(movieIndex, 1)
+        //Saving in local storage is generally a bad idea, but this is non-sensitive information so it is okay for now
         localStorage.setItem('nominatedMovies', JSON.stringify(this.nominatedMovieList))
       },
     },

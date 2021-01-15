@@ -44,7 +44,7 @@
           :total-visible="10"
           v-model="movieListPage"
           :length="totalPageLength"
-          @input="fetchMovies"
+          @input="fetchMovieList"
           />
       </v-card-actions>
     </v-card>
@@ -72,8 +72,8 @@ import { mapState } from 'vuex'
     name: 'SearchMovieResults',
     data() {
       return {
-        isFetchErrorShown: false,
-        isNominateErrorShown: false
+        isNominateErrorShown: false,
+        errorMessage: null
       }
     },
     computed: {
@@ -98,15 +98,24 @@ import { mapState } from 'vuex'
           this.$store.state.isLoadingResults = isLoading
         }
       },
+      isFetchErrorShown: {
+        get() {
+          return this.$store.state.isFetchErrorShown
+        },
+        set(isShown) {
+          this.$store.state.isFetchErrorShown = isShown
+        }
+      },
     },
     methods: {
-      fetchMovies() {
+      fetchMovieList() {
         this.isLoadingResults = true
         this.$store.dispatch('fetchMovies')
           .then(() => {
             this.isLoadingResults = false
           })
-          .catch(() => {
+          .catch(error => {
+            this.errorMessage = error.status
             this.isLoadingResults = false
             this.isFetchErrorShown = true
           })
@@ -114,6 +123,7 @@ import { mapState } from 'vuex'
       nominateMovie(movieIndex) {
         if (this.$store.state.nominatedMovieList.length < 5) {
           this.$store.state.nominatedMovieList.push(this.filteredMovieList[movieIndex])
+          //Saving in local storage is generally a bad idea, but this is non-sensitive information so it is okay for now
           localStorage.setItem('nominatedMovies', JSON.stringify(this.$store.state.nominatedMovieList))
         } else {
           this.isNominateErrorShown = true

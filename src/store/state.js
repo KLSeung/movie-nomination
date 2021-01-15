@@ -5,6 +5,7 @@ const state = {
   movieListPage: 1,
   totalPageLength: 0,
   isLoadingResults: false,
+  isFetchErrorShown: false,
 }
 
 export default state

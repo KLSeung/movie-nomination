@@ -24,6 +24,21 @@
         </v-card-text>
       </v-card>
     </v-row>
+    <v-snackbar
+      v-model="isFetchErrorShown"
+    >
+      Error {{ errorMessage }}: Sorry! We've encountered a problem on our end while getting the movie list.
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="pink"
+          text
+          v-bind="attrs"
+          @click="isFetchErrorShown = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -32,11 +47,6 @@
 
 export default {
   name: 'SearchMovieBar',
-  data() {
-    return {
-      displayErrorMesssage: false
-    }
-  },
   computed: {
     movieSearchText: {
       get() {
@@ -53,7 +63,15 @@ export default {
       set(isLoading) {
         this.$store.state.isLoadingResults = isLoading
       }
-    }
+    },
+    isFetchErrorShown: {
+      get() {
+        return this.$store.state.isFetchErrorShown
+      },
+      set(isShown) {
+        this.$store.state.isFetchErrorShown = isShown
+      }
+    },
   },
   methods: {
     fetchMovies() {
@@ -65,9 +83,10 @@ export default {
           .then(() => {
             this.isLoadingResults = false
           })
-          .catch(() => {
+          .catch(error => {
+            this.errorMessage = error.status
             this.isLoadingResults = false
-            this.displayErrorMesssage = true
+            this.isFetchErrorShown = true
           })
       }, 500)
     },

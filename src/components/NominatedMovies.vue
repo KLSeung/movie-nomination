@@ -30,9 +30,6 @@
               <v-col cols="7" class="grow">
                 <span class="font-weight-bold">These are your 5 nominated movies!</span>
               </v-col>
-              <v-col class="shrink">
-                <v-btn color="green darken-2">Save</v-btn>
-              </v-col>
             </v-row>
           </v-alert>
         </div>
@@ -68,13 +65,24 @@
   export default {
     name: 'NominatedMovies',
     computed: {
-      nominatedMovieList() {
-        return this.$store.state.nominatedMovieList
+      nominatedMovieList: {
+        get() {
+          return this.$store.state.nominatedMovieList
+        },
+        set(savedMovies) {
+          this.$store.state.nominatedMovieList = savedMovies
+        }
       }
     },
     methods: {
       removeNominatedMovie(movieIndex) {
         this.$store.state.nominatedMovieList.splice(movieIndex, 1)
+        localStorage.setItem('nominatedMovies', JSON.stringify(this.nominatedMovieList))
+      },
+    },
+    created() {
+      if (localStorage.getItem('nominatedMovies').length > 0) {
+        this.nominatedMovieList = JSON.parse(localStorage.getItem('nominatedMovies'))
       }
     }
   }

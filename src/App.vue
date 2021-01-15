@@ -11,14 +11,6 @@
         The Shoppies
       </v-app-bar-title>
       <v-spacer></v-spacer>
-
-      <v-btn
-        href=""
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Login</span>
-      </v-btn>
     </v-app-bar>
 
     <v-main>

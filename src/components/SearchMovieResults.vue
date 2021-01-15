@@ -114,6 +114,7 @@ import { mapState } from 'vuex'
       nominateMovie(movieIndex) {
         if (this.$store.state.nominatedMovieList.length < 5) {
           this.$store.state.nominatedMovieList.push(this.filteredMovieList[movieIndex])
+          localStorage.setItem('nominatedMovies', JSON.stringify(this.$store.state.nominatedMovieList))
         } else {
           this.isNominateErrorShown = true
         }
@@ -121,7 +122,6 @@ import { mapState } from 'vuex'
       checkMovieIsSelected(filteredMovie) {
         let isMovieSelected = false
         this.$store.state.nominatedMovieList.forEach((movie) => {
-          // console.log(movie.Title === filteredMovie.Title && movie.Year === filteredMovie.Year, `${movie.Title} = ${filteredMovie.Title}` )
           if (movie.Title === filteredMovie.Title && movie.Year === filteredMovie.Year) {
             isMovieSelected = true
           }

@@ -5,7 +5,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       axios.get(`http://www.omdbapi.com/?apikey=256754b1&s=${state.movieSearchText}&page=${state.movieListPage}&type=movie`)
       .then(res => {
-        console.log(res)
         commit('EMPTY_MOVIE_LIST')
         if (res.data.Response === "True") {
           commit('UPDATE_MOVIES', res.data.Search) 

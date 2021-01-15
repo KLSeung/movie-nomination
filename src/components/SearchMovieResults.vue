@@ -68,12 +68,12 @@
 
 <script>
 import { mapState } from 'vuex'
+
   export default {
     name: 'SearchMovieResults',
     data() {
       return {
         isNominateErrorShown: false,
-        errorMessage: null
       }
     },
     computed: {
@@ -114,10 +114,8 @@ import { mapState } from 'vuex'
           .then(() => {
             this.isLoadingResults = false
           })
-          .catch(error => {
-            this.errorMessage = error.status
+          .catch(() => {
             this.isLoadingResults = false
-            this.isFetchErrorShown = true
           })
       },
       nominateMovie(movieIndex) {

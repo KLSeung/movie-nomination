@@ -6,6 +6,7 @@ const state = {
   totalPageLength: 0,
   isLoadingResults: false,
   isFetchErrorShown: false,
+  errorMessageFetchMovie: null, 
 }
 
 export default state

@@ -27,7 +27,7 @@
     <v-snackbar
       v-model="isFetchErrorShown"
     >
-      Error {{ errorMessage }}: Sorry! We've encountered a problem on our end while getting the movie list.
+      Error {{ errorMessageFetchMovie }}: Sorry! We've encountered a problem on our end while getting the movie list.
       <template v-slot:action="{ attrs }">
         <v-btn
           color="pink"
@@ -43,11 +43,15 @@
 </template>
 
 <script>
-// import { mapState } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   name: 'SearchMovieBar',
   computed: {
+    ...mapState({
+      isFetchErrorShown: state => state.isFetchErrorShown,
+      errorMessageFetchMovie: state => state.errorMessageFetchMovie,
+    }),
     movieSearchText: {
       get() {
         return this.$store.state.movieSearchText
@@ -83,10 +87,8 @@ export default {
           .then(() => {
             this.isLoadingResults = false
           })
-          .catch(error => {
-            this.errorMessage = error.status
+          .catch(() => {
             this.isLoadingResults = false
-            this.isFetchErrorShown = true
           })
       }, 500)
     },

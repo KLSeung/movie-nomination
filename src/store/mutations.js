@@ -1,6 +1,10 @@
 const mutations = {
   UPDATE_MOVIES(state, movies) {
-    state.filteredMovieList = movies
+    if (Array.isArray(movies)) {
+      state.filteredMovieList = movies
+    } else {
+      state.filteredMovieList.push(movies)
+    }
   },
   EMPTY_MOVIE_LIST(state) {
     state.filteredMovieList = []

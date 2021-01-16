@@ -7,26 +7,30 @@
       min-height="300px"
       :loading="isLoadingResults"
     >
-      <v-card-title class="ml-4"> 
+      <v-card-title 
+        class="ml-4"
+        :class="{'subtitle-2': $vuetify.breakpoint.xs}"
+      > 
         Movie Results for: {{ movieSearchText }}
       </v-card-title>
       <v-card-text class="mb-3">
         <div v-if="filteredMovieList.length <= 0 && isLoadingResults === false">
-          <h2 class="ml-4 error-text">No Results Found!</h2>
+          <h2 class="ml-4" >No Results Found!</h2>
         </div>
         <ul class="pa-0 ml-4">
           <div v-for="(filteredMovie, index) in filteredMovieList" :key="filteredMovie.imdbID">
             <v-row class="ma-0 pa-0">
-              <v-col cols="7">
+              <v-col cols="6">
                 <li class="my-2">
                   {{ filteredMovie.Title }} ({{ filteredMovie.Year}})
                 </li>
               </v-col>
-              <v-col cols="5">
+              <v-col cols="6">
                 <v-btn
                   color="success"
                   @click="nominateMovie(index)"
                   :disabled="checkMovieIsSelected(filteredMovie)"
+                  :small='$vuetify.breakpoint.xs'
                 >
                   <v-icon left>
                     mdi-trophy

@@ -5,7 +5,10 @@
       height="100%"
       min-height="300px"
     >
-      <v-card-title class="ml-4"> 
+      <v-card-title 
+        class="ml-4"
+        :class="{'subtitle-2': $vuetify.breakpoint.xs}"
+      > 
         <h3>Nominated Movies</h3>
         <v-icon 
           class="pl-3"
@@ -28,7 +31,12 @@
           >
             <v-row align="center">
               <v-col cols="7" class="grow">
-                <span class="font-weight-bold">These are your 5 nominated movies!</span>
+                <span 
+                  class="font-weight-bold"
+                  :class="{'subtitle-2': $vuetify.breakpoint.xs}"
+                >
+                  These are your 5 nominated movies!
+                </span>
               </v-col>
             </v-row>
           </v-alert>

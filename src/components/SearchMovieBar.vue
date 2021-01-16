@@ -1,11 +1,17 @@
 <template>
   <div>
-    <v-row class="mx-16" justify="center">
+    <v-row 
+      :class="{'mx-2': $vuetify.breakpoint.xs, 'mx-16': $vuetify.breakpoint.smAndUp}" 
+      justify="center"
+    >
       <v-card 
         class="my-12"
         width="100%"
       >
-        <v-card-title class="ml-4"> 
+        <v-card-title 
+          class="ml-4"
+          :class="{'subtitle-2': $vuetify.breakpoint.xs}"
+        > 
           <h3>Search Movie by Title</h3>
           <v-icon 
             class="pl-3"

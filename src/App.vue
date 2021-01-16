@@ -15,8 +15,11 @@
 
     <v-main>
       <SearchMovieBar/>
-      <v-row class="mx-16" dense>
-        <v-col class="ma-0 pa-0" :class="[this.$vuetify.breakpoint.width > 768 ? 'pr-12' : '']" :cols="cols">
+      <v-row 
+        :class="{'mx-2': $vuetify.breakpoint.xs, 'mx-16': $vuetify.breakpoint.smAndUp }" 
+        dense
+      >
+        <v-col class="ma-0 pa-0" :class="{'pr-12': $vuetify.breakpoint.smAndUp }" :cols="cols">
           <SearchMovieResults/>
         </v-col>
         <v-col class="ma-0 pa-0" :cols="cols">

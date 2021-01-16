@@ -11,7 +11,7 @@ const mutations = {
   },
   UPDATE_PAGE_LENGTH(state, length) {
     state.totalPageLength = length
-  }
+  },
 }
 
 export default mutations

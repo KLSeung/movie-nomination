@@ -1,19 +1,19 @@
 <template>
   <div>
-    <v-row 
-      :class="{'mx-5': $vuetify.breakpoint.xs, 'mx-16': $vuetify.breakpoint.smAndUp}" 
+    <v-row
+      :class="{'mx-5': $vuetify.breakpoint.xs, 'mx-16': $vuetify.breakpoint.smAndUp}"
       justify="center"
     >
-      <v-card 
+      <v-card
         class="my-12"
         width="100%"
       >
-        <v-card-title 
+        <v-card-title
           class="ml-4"
           :class="{'subtitle-2': $vuetify.breakpoint.xs}"
-        > 
+        >
           <h3>Search Movie by Title</h3>
-          <v-icon 
+          <v-icon
             class="pl-3"
             color="black"
           >
@@ -33,7 +33,8 @@
     <v-snackbar
       v-model="isFetchErrorShown"
     >
-      Error {{ errorMessageFetchMovie }}: Sorry! We've encountered a problem on our end while getting the movie list.
+      Error {{ errorMessageFetchMovie }}: Sorry! We've encountered a
+      problem on our end while getting the movie list.
       <template v-slot:action="{ attrs }">
         <v-btn
           color="pink"
@@ -64,7 +65,7 @@ export default {
       },
       set(text) {
         this.$store.state.movieSearchText = text
-      }
+      },
     },
     isLoadingResults: {
       get() {
@@ -72,7 +73,7 @@ export default {
       },
       set(isLoading) {
         this.$store.state.isLoadingResults = isLoading
-      }
+      },
     },
     isFetchErrorShown: {
       get() {
@@ -80,7 +81,7 @@ export default {
       },
       set(isShown) {
         this.$store.state.isFetchErrorShown = isShown
-      }
+      },
     },
   },
   methods: {

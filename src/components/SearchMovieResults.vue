@@ -7,10 +7,10 @@
       min-height="300px"
       :loading="isLoadingResults"
     >
-      <v-card-title 
+      <v-card-title
         class="ml-4"
         :class="{'subtitle-2': $vuetify.breakpoint.xs}"
-      > 
+      >
         Movie Results for: {{ movieSearchText }}
       </v-card-title>
       <v-card-text class="mb-3">
@@ -73,75 +73,76 @@
 <script>
 import { mapState } from 'vuex'
 
-  export default {
-    name: 'SearchMovieResults',
-    data() {
-      return {
-        isNominateErrorShown: false,
-      }
-    },
-    computed: {
-      ...mapState({
-        filteredMovieList: state => state.filteredMovieList,
-        movieSearchText: state => state.movieSearchText,
-        totalPageLength: state => state.totalPageLength,
-      }),
-      movieListPage: {
-        get() {
-          return this.$store.state.movieListPage
-        },
-        set(pageNumber) {
-          this.$store.state.movieListPage = pageNumber
-        }
+export default {
+  name: 'SearchMovieResults',
+  data() {
+    return {
+      isNominateErrorShown: false,
+    }
+  },
+  computed: {
+    ...mapState({
+      filteredMovieList: state => state.filteredMovieList,
+      movieSearchText: state => state.movieSearchText,
+      totalPageLength: state => state.totalPageLength,
+    }),
+    movieListPage: {
+      get() {
+        return this.$store.state.movieListPage
       },
-      isLoadingResults: {
-        get() {
-          return this.$store.state.isLoadingResults
-        },
-        set(isLoading) {
-          this.$store.state.isLoadingResults = isLoading
-        }
-      },
-      isFetchErrorShown: {
-        get() {
-          return this.$store.state.isFetchErrorShown
-        },
-        set(isShown) {
-          this.$store.state.isFetchErrorShown = isShown
-        }
+      set(pageNumber) {
+        this.$store.state.movieListPage = pageNumber
       },
     },
-    methods: {
-      fetchMovieList() {
-        this.isLoadingResults = true
-        this.$store.dispatch('fetchMovies')
-          .then(() => {
-            this.isLoadingResults = false
-          })
-          .catch(() => {
-            this.isLoadingResults = false
-          })
+    isLoadingResults: {
+      get() {
+        return this.$store.state.isLoadingResults
       },
-      nominateMovie(movieIndex) {
-        if (this.$store.state.nominatedMovieList.length < 5) {
-          this.$store.state.nominatedMovieList.push(this.filteredMovieList[movieIndex])
-          //Saving in local storage is generally a bad idea, but this is non-sensitive information so it is okay for now
-          localStorage.setItem('nominatedMovies', JSON.stringify(this.$store.state.nominatedMovieList))
-        } else {
-          this.isNominateErrorShown = true
-        }
+      set(isLoading) {
+        this.$store.state.isLoadingResults = isLoading
       },
-      checkMovieIsSelected(filteredMovie) {
-        let isMovieSelected = false
-        this.$store.state.nominatedMovieList.forEach((movie) => {
-          if (movie.Title === filteredMovie.Title && movie.Year === filteredMovie.Year) {
-            isMovieSelected = true
-          }
+    },
+    isFetchErrorShown: {
+      get() {
+        return this.$store.state.isFetchErrorShown
+      },
+      set(isShown) {
+        this.$store.state.isFetchErrorShown = isShown
+      },
+    },
+  },
+  methods: {
+    fetchMovieList() {
+      this.isLoadingResults = true
+      this.$store.dispatch('fetchMovies')
+        .then(() => {
+          this.isLoadingResults = false
         })
-        return isMovieSelected        
+        .catch(() => {
+          this.isLoadingResults = false
+        })
+    },
+    nominateMovie(movieIndex) {
+      if (this.$store.state.nominatedMovieList.length < 5) {
+        this.$store.state.nominatedMovieList.push(this.filteredMovieList[movieIndex])
+        // Saving in local storage is generally a bad idea,
+        // but this is non-sensitive information so it is okay for now
+        localStorage.setItem('nominatedMovies', JSON.stringify(this.$store.state.nominatedMovieList))
+      } else {
+        this.isNominateErrorShown = true
       }
     },
-  }
+    checkMovieIsSelected(filteredMovie) {
+      let isMovieSelected = false
+      this.$store.state.nominatedMovieList.forEach((movie) => {
+        if (movie.Title === filteredMovie.Title && movie.Year === filteredMovie.Year) {
+          isMovieSelected = true
+        }
+      })
+      return isMovieSelected
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>

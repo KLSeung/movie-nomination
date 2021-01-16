@@ -15,8 +15,8 @@
 
     <v-main>
       <SearchMovieBar/>
-      <v-row 
-        :class="{'mx-5': $vuetify.breakpoint.xs, 'mx-16': $vuetify.breakpoint.smAndUp }" 
+      <v-row
+        :class="{'mx-5': $vuetify.breakpoint.xs, 'mx-16': $vuetify.breakpoint.smAndUp }"
         dense
       >
         <v-col class="ma-0 pa-0" :class="{'pr-12': $vuetify.breakpoint.mdAndUp }" :cols="cols">
@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import SearchMovieBar from './components/SearchMovieBar'
-import SearchMovieResults from './components/SearchMovieResults'
-import NominatedMovies from './components/NominatedMovies'
+import SearchMovieBar from './components/SearchMovieBar.vue'
+import SearchMovieResults from './components/SearchMovieResults.vue'
+import NominatedMovies from './components/NominatedMovies.vue'
 
 export default {
   name: 'App',
@@ -44,15 +44,15 @@ export default {
     NominatedMovies,
   },
 
-  computed:{
+  computed: {
     cols() {
       if (this.$vuetify.breakpoint.width <= 768) {
         return 12
-      } 
+      }
       return 6
-    }
+    },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -16,10 +16,10 @@
     <v-main>
       <SearchMovieBar/>
       <v-row 
-        :class="{'mx-2': $vuetify.breakpoint.xs, 'mx-16': $vuetify.breakpoint.smAndUp }" 
+        :class="{'mx-5': $vuetify.breakpoint.xs, 'mx-16': $vuetify.breakpoint.smAndUp }" 
         dense
       >
-        <v-col class="ma-0 pa-0" :class="{'pr-12': $vuetify.breakpoint.smAndUp }" :cols="cols">
+        <v-col class="ma-0 pa-0" :class="{'pr-12': $vuetify.breakpoint.mdAndUp }" :cols="cols">
           <SearchMovieResults/>
         </v-col>
         <v-col class="ma-0 pa-0" :cols="cols">

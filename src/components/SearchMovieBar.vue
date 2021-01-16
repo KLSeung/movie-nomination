@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row 
-      :class="{'mx-2': $vuetify.breakpoint.xs, 'mx-16': $vuetify.breakpoint.smAndUp}" 
+      :class="{'mx-5': $vuetify.breakpoint.xs, 'mx-16': $vuetify.breakpoint.smAndUp}" 
       justify="center"
     >
       <v-card 

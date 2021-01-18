@@ -76,7 +76,7 @@
             v-if="isSelectedMovieInfoLoading === false && selectedMoviePlot"
           >
             <v-row>
-              <v-col cols="6">
+              <v-col :cols="movieInfoDiagCols">
                 <v-img
                   class="justify-start ml-4"
                   :src="selectedMovieImg"
@@ -84,12 +84,13 @@
                   contain
                 />
               </v-col>
-              <v-col cols="6">
+              <v-col :cols="movieInfoDiagCols">
                 <div>
                   <v-list-item>
                     <v-list-item-content>
                       <v-list-item-title class="info-list__title">
-                        <h4>Director:</h4> {{ selectedMovieDirector }}
+                        <h4>Director:</h4>
+                        <p>{{ selectedMovieDirector }}</p>
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
@@ -97,7 +98,7 @@
                     <v-list-item-content>
                       <v-list-item-title class="info-list__title">
                         <h4>Writers:</h4>
-                        {{ selectedMovieWriter }}
+                        <p>{{ selectedMovieWriter }}</p>
                       </v-list-item-title>
                   </v-list-item-content>
                   </v-list-item>
@@ -105,7 +106,7 @@
                     <v-list-item-content>
                       <v-list-item-title class="info-list__title">
                         <h4>Actors:</h4>
-                        {{ selectedMovieActors }}
+                        <p>{{ selectedMovieActors }}</p>
                       </v-list-item-title>
                   </v-list-item-content>
                   </v-list-item>
@@ -113,7 +114,7 @@
                     <v-list-item-content>
                       <v-list-item-title class="info-list__title">
                         <h4>IMDB Rating:</h4>
-                        {{ selectedMovieRating }}/10
+                        <p>{{ selectedMovieRating }}/10</p>
                       </v-list-item-title>
                   </v-list-item-content>
                   </v-list-item>
@@ -121,7 +122,7 @@
                     <v-list-item-content>
                       <v-list-item-title class="info-list__title">
                         <h4>Plot</h4>
-                        {{ selectedMoviePlot }}
+                        <p>{{ selectedMoviePlot }}</p>
                       </v-list-item-title>
                   </v-list-item-content>
                   </v-list-item>
@@ -200,6 +201,12 @@ export default {
       set(isShown) {
         this.$store.state.isFetchErrorShown = isShown
       },
+    },
+    movieInfoDiagCols() {
+      if (this.$vuetify.breakpoint.xs) {
+        return 12
+      }
+      return 6
     },
   },
   methods: {

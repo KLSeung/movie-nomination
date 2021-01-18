@@ -32,6 +32,19 @@ const actions = {
         })
     })
   },
+  fetchMovieInfo({ state }, filteredMovieId) {
+    return new Promise((resolve, reject) => {
+      axios.get(`https://www.omdbapi.com/?apikey=256754b1&i=${filteredMovieId}&type=movie`)
+        .then(res => {
+          resolve(res.data)
+        })
+        .catch(err => {
+          state.isFetchErrorShown = true
+          state.errorMessageFetchMovie = err.response.status
+          reject(err.response)
+        })
+    })
+  },
 }
 
 export default actions

@@ -22,11 +22,17 @@
             <v-row class="ma-0 pa-0">
               <v-col cols="6">
                 <li class="my-2">
-                  {{ filteredMovie.Title }} ({{ filteredMovie.Year}})
+                  <button
+                    class="link"
+                    @click="openMovieInfo(filteredMovie)"
+                  >
+                   {{ filteredMovie.Title }} ({{ filteredMovie.Year}})
+                  </button>
                 </li>
               </v-col>
               <v-col cols="6">
                 <v-btn
+                  class="text-wrap"
                   color="success"
                   @click="nominateMovie(index)"
                   :disabled="checkMovieIsSelected(filteredMovie)"
@@ -51,7 +57,81 @@
           @input="fetchMovieList"
           />
       </v-card-actions>
+      <v-dialog
+        v-model="isMovieInfoOpen"
+        max-width="800"
+        @input="resetSelectedMovieInfo"
+      >
+        <v-card :loading="isSelectedMovieInfoLoading">
+          <v-card-title
+            class="ml-4 my-2"
+            :class="{'subtitle-2': $vuetify.breakpoint.xs}"
+          >
+            {{ selectedMovieTitle }} ({{ selectedMovieYear }})
+          </v-card-title>
+          <v-divider></v-divider>
+          <v-card-text
+            class="my-4"
+            v-if="isSelectedMovieInfoLoading === false"
+          >
+            <v-row>
+              <v-col cols="6">
+                <v-img
+                  class="justify-start ml-4"
+                  :src="selectedMovieImg"
+                  width="300"
+                  contain
+                />
+              </v-col>
+              <v-col cols="6">
+                <div>
+                  <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title class="info-list__title">
+                        <h4>Director:</h4> {{ selectedMovieDirector }}
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title class="info-list__title">
+                        <h4>Writers:</h4>
+                        {{ selectedMovieWriter }}
+                      </v-list-item-title>
+                  </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title class="info-list__title">
+                        <h4>Actors:</h4>
+                        {{ selectedMovieActors }}
+                      </v-list-item-title>
+                  </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title class="info-list__title">
+                        <h4>IMDB Rating:</h4>
+                        {{ selectedMovieRating }}/10
+                      </v-list-item-title>
+                  </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title class="info-list__title">
+                        <h4>Plot</h4>
+                        {{ selectedMoviePlot }}
+                      </v-list-item-title>
+                  </v-list-item-content>
+                  </v-list-item>
+                </div>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
     </v-card>
+
     <v-snackbar
       v-model="isNominateErrorShown"
     >
@@ -78,6 +158,16 @@ export default {
   data() {
     return {
       isNominateErrorShown: false,
+      isMovieInfoOpen: false,
+      isSelectedMovieInfoLoading: false,
+      selectedMovieTitle: '',
+      selectedMovieYear: '',
+      selectedMovieImg: '',
+      selectedMovieDirector: '',
+      selectedMovieWriter: '',
+      selectedMovieActors: '',
+      selectedMovieRating: '',
+      selectedMoviePlot: '',
     }
   },
   computed: {
@@ -141,6 +231,36 @@ export default {
       })
       return isMovieSelected
     },
+    openMovieInfo(filteredMovie) {
+      this.isSelectedMovieInfoLoading = true
+      this.isMovieInfoOpen = true
+      this.$store.dispatch('fetchMovieInfo', filteredMovie.imdbID)
+        .then(res => {
+          this.selectedMovieTitle = res.Title
+          this.selectedMovieYear = res.Year
+          this.selectedMovieDirector = res.Director
+          this.selectedMovieWriter = res.Writer
+          this.selectedMovieActors = res.Actors
+          this.selectedMovieRating = res.imdbRating
+          this.selectedMoviePlot = res.Plot
+          this.isSelectedMovieInfoLoading = false
+          if (res.Poster === 'N/A') {
+            this.selectedMovieImg = 'https://i.imgur.com/oJwdhWr.jpg'
+          } else {
+            this.selectedMovieImg = res.Poster
+          }
+        })
+    },
+    resetSelectedMovieInfo() {
+      this.selectedMovieTitle = ''
+      this.selectedMovieYear = ''
+      this.selectedMovieImg = ''
+      this.selectedMovieDirector = ''
+      this.selectedMovieWriter = ''
+      this.selectedMovieActors = ''
+      this.selectedMovieRating = ''
+      this.selectedMoviePlot = ''
+    },
   },
 }
 </script>
@@ -159,5 +279,15 @@ export default {
   }
   .error-text {
     color: red;
+  }
+  .link {
+    background: none;
+    border: none;
+    outline:none;
+    text-align: left;
+    color:#2196F3;
+  }
+  .info-list__title {
+    white-space:normal
   }
 </style>

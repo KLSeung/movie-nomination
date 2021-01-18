@@ -66,13 +66,14 @@
           <v-card-title
             class="ml-4 my-2"
             :class="{'subtitle-2': $vuetify.breakpoint.xs}"
+            v-if="isSelectedMovieInfoLoading === false && selectedMovieYear"
           >
             {{ selectedMovieTitle }} ({{ selectedMovieYear }})
           </v-card-title>
           <v-divider></v-divider>
           <v-card-text
             class="my-4"
-            v-if="isSelectedMovieInfoLoading === false"
+            v-if="isSelectedMovieInfoLoading === false && selectedMoviePlot"
           >
             <v-row>
               <v-col cols="6">
@@ -252,6 +253,7 @@ export default {
         })
     },
     resetSelectedMovieInfo() {
+      this.isMovieInfoOpen = false
       this.selectedMovieTitle = ''
       this.selectedMovieYear = ''
       this.selectedMovieImg = ''

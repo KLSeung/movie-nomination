@@ -15,7 +15,7 @@ const actions = {
             // An example of a movie like this would be "Up" which
             axios.get(`https://www.omdbapi.com/?apikey=256754b1&t=${state.movieSearchText}&page=${state.movieListPage}&type=movie`)
               .then(singleSearchRes => {
-                commit('UPDATE_MOVIES', res.data)
+                commit('UPDATE_MOVIES', singleSearchRes.data)
                 commit('UPDATE_PAGE_LENGTH', 1)
                 resolve(singleSearchRes)
               })

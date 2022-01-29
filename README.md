@@ -1,4 +1,4 @@
-# shopify-movie-nomination
+# movie-nomination
 
 ## Project setup
 ```
